@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/main.min.css">
+  <title>Will Maker</title>
+</head>
+
+<body>
+  <div class="container">
+    <h3 class="display-3 mt-5 text-center text-md-start">Will Maker</h3>
+    <p class="lead">Create your will in real-time as you fill in the form below. Click <a href="#" id="sampleButton">here</a> to add some sample data to the form.</p>
+
+    <div class="row mt-3">
+      <!-- Form Column -->
+      <div class="col-lg shadow rounded px-5 py-4 me-lg-4 mb-5">
+        <form action="/print" method="post" tabindex="0">
+          <!-- Testator's Particulars -->
+          <fieldset>
+            <legend class="text-dark">Testator's Particulars</legend>
+            <div class="form-floating">
+              <input required type="text" name="testatorNameField" id="testatorNameField"
+                placeholder="Testator's Full Name" class="form-control">
+              <label for="testatorNameField">Testator's Full Name</label>
+            </div>
+            <div class="form-floating">
+              <input required type="text" name="testatorCountyField" id="testatorCountyField"
+                placeholder="Testator's County" class="form-control">
+              <label for="testatorCountyField">Testator's County</label>
+            </div>
+            <div class="form-floating">
+              <input required type="text" name="testatorStateField" id="testatorStateField" placeholder="Testator's State"
+                class="form-control">
+              <label for="testatorStateField">Testator's State</label>
+            </div>
+          </fieldset>
+
+          <!-- Distribution of Residuary Estate -->
+          <fieldset id="residuaryFieldset">
+            <legend>Distribution of Residuary Estate</legend>
+            <p>I wish to distribute my estate among...</p>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="residue" id="residueEqual">
+              <label for="residueEqual" class="form-check-label">
+                each of my beneficiaries in equal shares.
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="residue" id="residuePercent">
+              <label for="residuePercent" class="form-check-label">
+                each of my beneficiaries in a specified percentage.
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="residue" id="residuePerStirpes">
+              <label for="residuePerStirpes" class="form-check-label">
+                each branch of my descendants in equal shares.
+              </label>
+            </div>
+          </fieldset>
+          
+          <!-- Executor Provisions -->
+
+          <!-- No Contest Clause -->
+          <fieldset>
+            <legend>No Contest Clause</legend>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" name="noContestClause"
+                id="noContestClause">
+              <label class="form-check-label" for="noContestClause">I wish to revoke the benefits for any beneficiary who contests my will.</label>
+            </div>
+          </fieldset>
+
+          <!-- Witnesses' Particulars -->
+          <fieldset>
+            <legend class="text-dark">Witnesses' Particulars</legend>
+            <div class="form-floating">
+              <input required type="text" name="firstWitnessNameField" id="firstWitnessNameField"
+                placeholder="First Witness's Full Name" class="form-control">
+              <label for="firstWitnessNameField">First Witness's Full Name</label>
+            </div>
+            <div class="form-floating">
+              <input required type="text" name="firstWitnessAddressField" id="firstWitnessAddressField"
+                placeholder="First Witness's Address" class="form-control">
+              <label for="firstWitnessAddressField">First Witness's Address</label>
+            </div>
+            <div class="form-floating">
+              <input required type="text" name="secondWitnessNameField" id="secondWitnessNameField"
+                placeholder="Second Witness's Full Name" class="form-control">
+              <label for="secondWitnessNameField">Second Witness's Full Name</label>
+            </div>
+            <div class="form-floating">
+              <input required type="text" name="secondWitnessAddressField" id="secondWitnessAddressField"
+                placeholder="Second Witness's Address" class="form-control">
+              <label for="secondWitnessAddressField">Second Witness's Address</label>
+            </div>
+          </fieldset>
+
+          <!-- Date of Execution -->
+          <fieldset>
+            <legend>Date of Execution</legend>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-floating">
+                  <select name="dayField" id="dayField" class="form-select">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                  </select>
+                  <label for="dayField" class="form-label">Day</label>
+                </div>
+              </div>
+  
+              <div class="col">
+                <div class="form-floating">
+                  <select name="monthField" id="monthField" class="form-select">
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                  </select>
+                  <label for="monthField" class="form-label">Month</label>
+                </div>
+              </div>
+  
+              <div class="col">
+                <div class="form-floating">
+                  <input required type="text" name="yearField" id="yearField" placeholder="Year"
+                    class="form-control">
+                  <label for="yearField">Year</label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Buttons -->
+          <fieldset class="text-center">
+            <button type="submit" class="btn btn-primary me-2">Download the Will</button>
+            <button type="reset" id="resetButton" class="btn btn-light">Reset the Form</button>
+          </fieldset>
+        </form>
+      </div>
+
+      <!-- Preview Column -->
+      <div class="col-lg will-preview shadow rounded px-5 mb-5">
+        <div class="row article-header">
+          <h1>WILL</h1>
+          <h1>OF</h1>
+          <span class="h1 text-uppercase mb-4 testatorNameDisplay">[TESTATOR NAME]</span>
+        </div>
+
+        <!-- Introductory Clause -->
+        <p>
+          I, <span class="testatorNameDisplay">[Testator Name]</span>, of <span class="testatorCountyDisplay">[County]</span> County, <span class="testatorStateDisplay">[State]</span>, make this my Will, and I revoke all Wills and Codicils previously made by me.
+        </p>
+
+        <!-- Article: Identification -->
+        <div class="row article-header">
+          <h3>ARTICLE 1</h3>
+          <h2>IDENTIFICATION</h2>
+        </div>
+
+        <ol type="A" id="identificationList">
+        </ol>
+        
+        <!-- Signature Page -->
+        <p>
+          <strong>IN WITNESS WHEREOF</strong>, I have signed this Will consisting of &#95;&#95; pages, this page included, on the <span class="dayDisplay">[Day]</span> day of <span class="monthDisplay">[Month]</span>, <span class="yearDisplay">[Year]</span>.
+        </p>
+
+        <div class="row">
+          <div class="col"></div>
+          <div class="col mt-5 border-top border-dark">
+            <p>
+              <span class="text-uppercase testatorNameDisplay">[Testator Name]</span>, Testator
+            </p>
+          </div>
+        </div>
+
+        <p>The foregoing instrument was signed by the Testator in our presence and declared by the Testator to
+          be the Testator's Will, and we, the undersigned witnesses, sign our names hereunto as witnesses at the
+          request and in the presence of the Testator, and in the presence of each other, on the <span class="dayDisplay">[Day]</span> day of <span class="monthDisplay">[Month]</span>, <span class="yearDisplay">[Year]</span>.
+        </p>
+
+        <div class="row">
+          <div class="col"></div>
+          <div class="col mt-5 border-top border-dark">
+            <p>
+              <span class="text-uppercase firstWitnessNameDisplay">[First Witness Name]</span>
+            </p>
+            <p>
+              <span class="firstWitnessAddressDisplay">[First Witness Address]</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col"></div>
+          <div class="col mt-5 border-top border-dark">
+            <p>
+              <span class="text-uppercase secondWitnessNameDisplay">[Second Witness Name]</span>
+            </p>
+            <p>
+              <span class="secondWitnessAddressDisplay">[Second Witness Address]</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import sample data from server -->
+  <script>
+    const sampleData = <%- jsonString %>; // auto-converted to JSON object
+  </script>
+
+  <!-- Main JS repository -->
+  <script src="javascript/script.js"></script>
+</body>
+</html>

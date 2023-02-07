@@ -1,0 +1,28 @@
+// import google font
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+
+fieldset {
+  margin-bottom: 1rem !important;
+}
+
+input {
+  margin-bottom: 1rem !important;
+}
+
+.article-header {
+  margin-top: 3rem !important;
+  text-align: center;
+}
+
+.subclause-header {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.will-preview {
+  font-family: 'Merriweather', serif;
+  line-height: 2;
+}
+
+// import bootstrap
+@import '../node_modules/bootstrap/scss/bootstrap';

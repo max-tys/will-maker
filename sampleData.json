@@ -1,0 +1,12 @@
+{
+  "testatorName": "Saul Goodman",
+  "testatorCounty": "Albuquerque",
+  "testatorState": "New Mexico",
+  "firstWitnessName": "Walter White",
+  "firstWitnessAddress": "308 Negra Arroyo Lane, Albuquerque, New Mexico 87104",
+  "secondWitnessName": "Jesse Pinkman",
+  "secondWitnessAddress": "9809 Margo Street, Albuquerque, New Mexico 87104",
+  "day": "15",
+  "month": "August",
+  "year": "2022"
+}

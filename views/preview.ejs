@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/main.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <title>Will of <%= testatorName %></title>
+</head>
+<body class="will">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-4 p-5 text-center shadow rounded bg-light">
+        <p>This is a preview of your will.</p>
+        <a href="/print" class="btn btn-primary">Download Will as PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-5 mb-5">
+    <%# Federal Will Template %> 
+    <%# Title %> 
+    <div class="row article-header">
+      <h1>WILL</h1>
+      <h1>OF</h1>
+      <h1><%= testatorName.toUpperCase() %></h1>
+    </div>
+
+    <!-- Introductory Clause -->
+    <p>I, <%= testatorName %>, of <%= testatorCounty %> County, <%= testatorState %>, make this my Will, and I revoke all Wills and Codicils previously made by me.</p>
+
+    <!-- Article 1: Identification of Beneficiaries -->
+    <div class="row article-header">
+      <h2>ARTICLE <%= articleNumber += 1 %></h2>
+      <h1>IDENTIFICATION</h1>
+    </div>
+
+    <ol type="A">
+      <li>
+        Children. I have [NUMBER] children, [CHILD ONE NAME], [CHILD TWO NAME], and [CHILD THREE NAME]. All references in this Will to "my children" are to them and to all children hereafter born to or adopted by me. In addition, all references in this Will to "my Descendants" are to my children (as defined above) and to all of their respective Descendants.
+      </li>
+      <% if (givingToCharity) { %>
+        <li>
+          [CHARITABLE ORGANIZATION NAME]. I have included [CHARITABLE ORGANIZATION NAME] as a beneficiary in this Will. The address, phone number, and federal tax identification number of [CHARITABLE ORGANIZATION NAME] are as follows: [ADDRESS], [PHONE NUMBER], [FEDERAL TAX IDENTIFICATION NUMBER].]
+        </li>
+      <% } %>
+      <li>
+        [BENEFICIARY NAME]. I have included my [RELATIONSHIP], [BENEFICIARY NAME] as a beneficiary in this Will. [BENEFICIARY NAME] currently resides in [CITY], [STATE].
+      </li>
+    </ol>
+
+    <!-- Article 2: Disposition of Remains -->
+    <% if (remainsClause) { %>
+      <div class="row article-header">
+        <h2>ARTICLE <%= articleNumber += 1 %></h2>
+        <h1>DISPOSITION OF REMAINS</h1>
+      </div>
+
+      <p>
+        Burial Request. I request that I be buried at [TESTATOR'S PREFERRED BURIAL SITE] which is located at [ADDRESS].
+        OR
+        Cremation Request. I request that my remains be cremated and that my ashes be [TESTATOR'S PREFERENCE CONCERNING ASHES].
+        OR
+        Disposition of Remains. I direct my Executor named in this Will to abide by any instructions, including the appointment of an agent to control the disposition of my remains, which I have left in any other legal document, such as a[n] [ADVANCE HEALTH CARE DIRECTIVE] or Disposition of Remains Form. If such a document is not located within 24 hours of my death or the discovery of my death, I authorize my Executor named in this Will to determine the appropriate disposition of my remains in my Executor's sole discretion.
+      </p>
+    <% } %>
+    <!-- Article 3: Specific Gifts -->
+    <div class="row article-header">
+      <h2>ARTICLE <%= articleNumber += 1 %></h2>
+      <h1>GIFTS AT DEATH</h1>
+    </div>
+
+    <ol type="A">
+      <li>
+        [Memorandum. I may leave a writing disposing of specific items of tangible personal property. I [request that my Executor follow/direct my Executor to follow] my wishes, as expressed in that memorandum. If no such memorandum is located within sixty (60) days of my death, I direct that such tangible personal property be distributed in accordance with the remaining provisions of this Will.]
+      </li>
+      <li>
+        [Specific Items of Tangible Personal Property. I give to [BENEFICIARY NAME] all of my interest in my [DESCRIPTION OF SPECIFIC ITEM OF TANGIBLE PERSONAL PROPERTY]; provided, however, if [BENEFICIARY NAME] fails to survive me, this gift shall lapse.]
+      </li>
+      <li>
+        [Tangible Personal Property/Balance of Tangible Personal Property]. I give all of my interest in any motor vehicles, boats and personal watercraft, household goods, appliances, furniture and furnishings, pictures, silverware, china, glass, books, clothing, jewelry, or other articles of personal use or ornament, and other tangible personal property of a nature, use, or classification similar to the foregoing, except as may be provided as a specific gift elsewhere in this instrument [or in a separate memorandum as provided in Paragraph A of this Article] (including gifts of tangible property items associated with a gift of real property, if applicable), to [those of my Descendants who survive me Per Stirpes/the person or persons to whom the residue of my estate will be distributed], with particular items to be allocated as they may agree, or if they cannot agree, as my Executor shall decide. If any beneficiary hereunder is a minor, my Executor may distribute such minor's share to such minor or for such minor's use to any person with whom such minor is residing or who has the care or control of such minor without further responsibility, and the receipt of the person to whom such minor's share is distributed shall be a complete discharge of my Executor. The cost of packing and shipping such property to any such beneficiary shall be charged against my estate as an expense of administration.
+      </li>
+      <li>
+        [Gift of Real Estate. I give to [BENEFICIARY NAME] all of my interest in the real property and the improvements thereto located at [PROPERTY DESCRIPTION]; provided, however, if [BENEFICIARY NAME] fails to survive me, this gift shall lapse. Except as may be provided otherwise in this Article [or a memorandum authorized by this Article], this gift shall include all pictures, furniture, and other similar items of personal property located in such real property that do not require a formal transfer of title. This gift shall also include all of my interest in all property insurance on such property which I have paid prior to my death.]
+      </li>
+      <li>
+        [Gift of Account. I give all of my interest in my [ACCOUNT INFORMATION] to [BENEFICIARY NAME]; provided, however, if [BENEFICIARY NAME] fails to survive me, this gift shall lapse.]
+      </li>
+      <li>
+        [Gift of Cash. I give the sum of [NUMBER IN WORDS] dollars ($[NUMBER]) in cash to [BENEFICIARY NAME]; provided, however, if [BENEFICIARY NAME] fails to survive me, this gift shall lapse. This gift shall not bear interest from the date of my death until paid.]
+      </li>
+      <li>
+        Gift to Charity. I give the sum of [NUMBER IN WORDS] dollars ($[NUMBER]) to [CHARITABLE ORGANIZATION NAME], such funds to be used for its general charitable purposes; provided, however, if upon my death such organization is not an organization described in 26 U.S.C. §§ 170(c), 2055(a), and 2522(a), each as amended, then the gift to such organization shall not be made, and instead, my Executor shall make such gift to a similar organization or organizations of my Executor's choosing described in such sections. My Executor, in my Executor's discretion, may satisfy this gift with cash or property of an equivalent fair market value as of the date of distribution. This gift shall not bear interest from the date of my death until paid.
+      </li>
+    </ol>
+    
+    <!-- Article 4: Residue -->
+    <div class="row article-header">
+      <h2>ARTICLE <%= articleNumber += 1 %></h2>
+      <h1>RESIDUE</h1>
+    </div>
+
+    <!-- Distribution to surviving descendants, Per Stirpes -->
+    <p>[I give all of the residue of my estate to those of my Descendants who survive me Per Stirpes. If none of my Descendants survive me, I give all of the residue of my estate to my Heirs.</p>
+
+    <p>OR</p>
+
+    <!-- Distribution in equal shares to named beneficiaries -->
+    <p>
+      <ol type="A">
+        <li>
+          All of the residue of my estate shall be distributed to the following beneficiaries in equal shares:
+        </li>
+        <ol>
+          <li>
+            [FIRST BENEFICIARY NAME]; provided, however, if [FIRST BENEFICIARY NAME] fails to survive me, this share of the residue of my estate shall be distributed to [FIRST BENEFICIARY NAME]'s Descendants who survive me Per Stirpes, or if no such Descendants survive me, such share shall be added on a pro rata basis to each of Subdivisions (2), (3) and (4) of this Paragraph A as shall be effectively disposed of.
+          </li>
+          <li>
+            [SECOND BENEFICIARY NAME]; provided, however, if [SECOND BENEFICIARY NAME] fails to survive me, this share of the residue of my estate shall be distributed to [SECOND BENEFICIARY NAME]'s Descendants who survive me Per Stirpes, or if no such Descendants survive me, such share shall be added on a pro rata basis to each of Subdivisions (1), (3) and (4) of this Paragraph A as shall be effectively disposed of.
+          </li>
+          <li>
+            [THIRD BENEFICIARY NAME]; provided, however, if [THIRD BENEFICIARY NAME] fails to survive me, this share of the residue of my estate shall be distributed to [THIRD BENEFICIARY NAME]'s Descendants who survive me Per Stirpes, or if no such Descendants survive me, such share shall be added on a pro rata basis to each of Subdivisions (1), (2) and (4) of this Paragraph A as shall be effectively disposed of.
+          </li>
+          <li>
+            [CHARITABLE ORGANIZATION NAME]; provided, however, if upon my death such organization is not an organization described in 26 U.S.C. § 170(c), 26 U.S.C. § 2055(a), and 26 U.S.C. § 2522(a), each as amended, [then the distribution to such organization shall not be made, and instead, my Executor shall make such distribution to a similar organization or organizations of my Executor's choosing described in such sections, or, if my Executor does not choose an alternative charitable organization within [six months/[OTHER TIME PERIOD]] of my death,] then such share shall be added on a pro rata basis to each of Subdivisions (1), (2) and (3) of this Paragraph A as shall be effectively disposed of.
+          </li>
+        </ol>
+        <li>
+          If all of the dispositions in Paragraph A of this Article IV fail, I give all of the residue of my estate to my Heirs.
+        </li>
+      </ol>
+    </p>
+
+    <p>OR</p>
+
+    <!-- Distribution in percentage shares to named beneficiaries -->
+    <p>
+      <ol type="A">
+        <li>
+          All of the residue of my estate shall be distributed to the following beneficiaries in the noted percentages:
+        </li>
+        <ol>
+          <li>
+            [NUMBER]% ([NUMBER IN WORDS] Percent) shall be distributed to [FIRST BENEFICIARY NAME]; provided, however, if [FIRST BENEFICIARY NAME] fails to survive me, this share of the residue of my estate shall be distributed to [FIRST BENEFICIARY NAME]'s Descendants who survive me Per Stirpes, or if no such Descendants survive me, such share shall be added on a pro rata basis to each of Subdivisions (2), (3) and (4) of this Paragraph A as shall be effectively disposed of.
+          </li>
+          <li>
+            [NUMBER]% ([NUMBER IN WORDS] Percent) shall be distributed to [SECOND BENEFICIARY NAME]; provided, however, if [SECOND BENEFICIARY NAME] fails to survive me, this share of the residue of my estate shall be distributed to [SECOND BENEFICIARY NAME]'s Descendants who survive me Per Stirpes, or if no such Descendants survive me, such share shall be added on a pro rata basis to each of Subdivisions (1), (3) and (4) of this Paragraph A as shall be effectively disposed of.
+          </li>
+          <li>
+            [NUMBER]% ([NUMBER IN WORDS] Percent) shall be distributed to [THIRD BENEFICIARY NAME]; provided, however, if [THIRD BENEFICIARY NAME] fails to survive me, this share of the residue of my estate shall be distributed to [THIRD BENEFICIARY NAME]'s Descendants who survive me Per Stirpes, or if no such Descendants survive me, such share shall be added on a pro rata basis to each of Subdivisions (1), (2) and (4) of this Paragraph A as shall be effectively disposed of.
+          </li>
+          <li>
+            [NUMBER]% ([NUMBER IN WORDS] Percent) shall be distributed to [CHARITABLE ORGANIZATION NAME]; provided, however, if upon my death such organization is not an organization described in 26 U.S.C. § 170(c), 26 U.S.C. § 2055(a), and 26 U.S.C. § 2522(a), each as amended, [then the distribution to such organization shall not be made, and instead, my Executor shall make such distribution to a similar organization or organizations of my Executor's choosing described in such sections, or, if my Executor does not choose an alternative charitable organization within [six months/[OTHER TIME PERIOD]] of my death,] then such share shall be added on a pro rata basis to each of Subdivisions (1), (2) and (3) of this Paragraph A as shall be effectively disposed of.
+          </li>
+        </ol>
+        <li>
+          If all of the dispositions in Paragraph A of this Article IV fail then I give all of the residue of my estate to my Heirs.
+        </li>
+      </ol>
+    </p>
+
+    <!-- Article 5: Executor Provisions -->
+    <div class="row article-header">
+      <h2>ARTICLE <%= articleNumber += 1 %></h2>
+      <h1>EXECUTOR PROVISIONS</h1>
+    </div>
+
+    <ol type="A">
+      <li>
+        Executor. I nominate my [RELATIONSHIP], [PRIMARY EXECUTOR NAME], to be Executor of my Will and estate. If [PRIMARY EXECUTOR NAME] fails to qualify, dies, resigns, becomes Incapacitated, or otherwise ceases to serve, I nominate my [RELATIONSHIP], [FIRST ALTERNATE EXECUTOR NAME], to be Executor of my Will and estate. [In the further event that [FIRST ALTERNATE EXECUTOR NAME] fails to qualify, dies, resigns, becomes Incapacitated, or otherwise ceases to serve, I nominate my [RELATIONSHIP], [SECOND ALTERNATE EXECUTOR NAME] to be Executor of my Will and estate.]
+      </li>
+      <li>
+        Bond[; Court Supervision]. No bond or other security shall be required of my Executor in any jurisdiction. [If permitted by the laws of the state in which my Will is probated, my Executor shall administer my estate without court supervision, and no action shall be required in any court in relation to the settlement of my estate other than the probating and recording of my Will.]
+      </li>
+      <li>
+        Expenses and Compensation. Every Executor shall be reimbursed for the reasonable costs and expenses incurred in connection with such Executor's duties. Every Executor shall be entitled to fair and reasonable compensation for services rendered by such Executor in an amount not exceeding the customary and prevailing charges for services of a similar character at the time and place such services are performed. Additionally, every Executor shall be entitled to additional fair and reasonable compensation for extraordinary services performed by such Executor in an amount equal to the prevailing charges for services of a similar character at the time and place such extraordinary services are performed.
+      </li>
+      <li>
+        Reliance on Legal Opinion. In acting or declining to act, each Executor may rely upon a written opinion of a competent attorney licensed and in good standing in the jurisdiction where the subject matter of any opinion is sought, any facts stated in any instrument, furnished in writing and believed to be true, or any other evidence such Executor deems sufficient. Each Executor shall be indemnified and further held harmless from liability for any action taken or for the failure to take any action, if done in good faith and without gross negligence.
+      </li>
+      <li>
+        Ancillary Executors. If my estate contains property located in another state or a foreign jurisdiction and my Executor cannot or chooses not to serve under the laws thereof, my Executor shall have the power to nominate an ancillary individual or corporate executor of such property.
+      </li>
+      <li>
+        Acts of Prior Executors. Each Executor shall be relieved of any duty to examine the acts of any prior Executor and no court accounting shall be required. Each successor Executor shall be responsible only for properties that are actually delivered to such Executor.
+      </li>
+      <li>
+        Executors and Multiple Executors. Unless another meaning is clearly indicated or required by context or circumstances, the term "Executor" shall also mean and include all persons or entities that may at any time be serving and any Co-Executors, alternates, or successors. Except as otherwise specifically provided in this Will, if two or more Executors are named or serving hereunder and any one or more, but not all, decline, fail, or cease to serve for any reason, and no successor Executor is named herein, then the remaining Executor or Co-Executors, as the case may be, shall be nominated or continue to serve in such capacity.
+      </li>
+      <li>
+        Actions by Executors. Unless otherwise specifically indicated: (1) actions authorized throughout this Will in the discretion of my Executor shall mean the reasonable discretion of such Executor; and (2) in all matters relating to my estate, if the number of Executors authorized to exercise a power or discretion shall be greater than one, the decision of a majority of the Executors then serving shall control. Any writing signed by the persons whose decisions shall control shall be valid and effective for all purposes as if signed by all such Executors.
+      </li>
+    </ol>
+
+    <!-- Article 6: Guardian Provisions -->
+    <div class="row article-header">
+      <h2>ARTICLE <%= articleNumber += 1 %></h2>
+      <h1>GUARDIAN PROVISIONS</h1>
+    </div>
+
+    <p>[I nominate my [RELATIONSHIP], [GUARDIAN NAME], to be guardian of the persons and estates of those of my children who are under the age of legal majority at the time of my death, without requirement of bond or other security. If [GUARDIAN NAME] dies, does not qualify, fails to serve, ceases to serve, or is unwilling or unable to serve for any reason, then I nominate my [RELATIONSHIP], [FIRST ALTERNATE GUARDIAN NAME], to be the first alternate guardian, without requirement of bond or other security. The provisions of this Article are intended to apply if the need to nominate a guardian arises following my death.]</p>
+
+    <!-- Article 7: Executor Powers -->
+    <div class="row article-header">
+      <h2>ARTICLE <%= articleNumber += 1 %></h2>
+      <h1>EXECUTOR POWERS</h1>
+    </div>
+
+    <p>
+      Each Executor shall, to the extent permitted by law, act independently and free from the control of any court as to my estate (and as to all of the property of my estate). Each Executor shall have and possess the following powers and authorities (each of which shall be exercisable in the discretion of such Executor) with respect to my estate, and the following provisions shall apply to my estate:
+
+      <ol>
+        <li>
+          Retention of Property. To retain, in the discretion of my Executor, and without liability for any depreciation or loss occasioned by such retention, any property which was owned by me at my death when my Executor determines that, because of the circumstances involved, my estate would be better served by not diversifying the investment in such property;
+        </li>
+        <li>
+          Dealing in Estate Assets. To exchange, sell, convey, or lease for cash, property, or credit, or to partition, publicly or privately, at such prices, on such terms, times, and conditions and by instruments of such character and with such covenants as my Executor deems proper, all or any part of the properties of my estate, including real property, and no vendee or lessee shall be required to look to the application made of any funds paid to my Executor;
+        </li>
+        <li>
+          Borrowing. To borrow money from any source (including any Executor) and to mortgage, pledge, or in any other manner encumber all or any part of the properties of my estate as may be advisable in the judgment of my Executor for the advantageous administration of my estate;
+        </li>
+        <li>
+          Distributions to Minor or Incapacitated Beneficiaries. To make, in the discretion of my Executor, any distribution required or permitted to be made to any beneficiary under this Will in any of the following ways when such beneficiary is a minor or is Incapacitated: (i) to such beneficiary directly; (ii) to the guardian or conservator of such beneficiary's person or property; (iii) by utilizing the same, directly and without the interposition of any guardian or conservator, for the health, support, maintenance, or education of such beneficiary; (iv) to a person or financial institution serving as custodian for such beneficiary under a Uniform Gifts to Minors Act or a Uniform Transfers to Minors Act of any state; (v) by reimbursing the person who is actually taking care of such beneficiary (even though such person is not the legal guardian or conservator) for expenditures made by such person for the benefit of such beneficiary; and (vi) by managing such distribution as a separate fund on the beneficiary's behalf; and the written receipts of the persons receiving such distributions shall be full and complete acquittances to my Executor;
+        </li>
+        <li>
+          Distributions in Kind. To make divisions, partitions, or distributions in money or in kind, or partly in each, whenever required or permitted to divide, partition, or distribute all or any part of my estate; and, in making any such divisions, partitions, or distributions, the judgment of my Executor in the selection and valuation of the assets to be so divided, partitioned, or distributed shall be binding and conclusive; and my Executor shall not be liable for any differing tax consequences to the beneficiaries of my estate; and, further, my Executor shall be authorized to make distributions from my estate on a non-pro rata basis;
+        </li>
+        <li>
+          Investing. To invest and reinvest the properties of my estate in any kind of property whatsoever, real or personal (including oil, gas, and other mineral leases, royalties, overriding royalties, and other interests), whether or not productive of income, and such investments and reinvestments may be made without regard to the proportion that such property or property of a similar character held may bear to my entire estate if my Executor determines that, because of the circumstances involved, my estate would be better served by not diversifying such investment or reinvestments;
+        </li>
+        <li>
+          Dealing with Interested Parties. To enter into any transaction on behalf of my estate (including loans to beneficiaries for adequate security and adequate interest) despite the fact that another party to any such transaction may be (i) a trust of which any Executor under this Will is also a trustee; (ii) an estate of which any Executor under this Will is also an executor, personal representative, or administrator, including my estate; (iii) a business or trust controlled by any Executor under this Will or of which any such Executor, or any director, officer, or employee of any such corporate Executor is also a director, officer, or employee; or (iv) any beneficiary or Executor under this Will acting individually;
+        </li>
+        <li>
+          Delegation and Agents. To employ attorneys, accountants, investment managers, specialists, and such other agents as my Executor shall deem necessary or desirable; to have the authority to nominate an investment manager or managers to manage all or any part of the assets of my estate, and to delegate to said manager investment discretion and such nomination shall include the power to acquire and dispose of such assets; and to charge the compensation of such attorneys, accountants, investment advisors, investment managers, specialists, and other agents and any other expenses against my estate;
+        </li>
+        <li>
+          Payment of Debts. To use the cash and any of the securities or other property owned by me to satisfy any loans or other debts for which my estate is liable or to continue all or any portion of such loans or debts;
+        </li>
+        <li>
+          Storing Personal Property. To store personal property given to a person who is a minor or who is Incapacitated for later distribution to such person;
+        </li>
+        <li>
+          Closely Held Businesses. To continue any business (whether a proprietorship, corporation, partnership, limited partnership, or other entity) which I own or in which I am financially interested at the time of my death for such time as my Executor deems it to be in the best interests of my estate; to employ in the conduct of any such business such properties of my estate as my Executor deems proper; to borrow money for use in any such business alone or with other persons financially interested in such business, and to secure such loan or loans by mortgage, pledge, or any other manner of encumbrance of not only my interest in such business, but also such other properties of my estate as my Executor deems proper; to organize, either alone or jointly with others, new corporations, partnerships, limited partnerships, or other entities; and generally to exercise with respect to the continuance, management, sale, or liquidation of any business which I own or in which I am financially interested at the time of my death or of any new business or business interest, all the powers I could have exercised during my lifetime; [and]
+        </li>
+        <li>
+          [Digital Assets. To access, utilize, manage, close, control, cancel, deactivate, or delete any Digital Accounts and Digital Assets in which I had a right or interest at my death. This authorization is intended to be construed to be lawful consent under the Electronic Communications Privacy Act of 1986, as amended; the Computer Fraud and Abuse Act of 1986, as amended; and any other applicable federal or state data privacy law or criminal law. Digital Asset means an electronic record in which I had a right or interest at death and may include data, files, documents, audio, video, images, sounds, social media content, social networking content, apps, codes, credit card points, travel-related miles and points, computer source codes, computer programs, software, software licenses, databases, or the like, which are created, generated, or stored by electronic means. The term Digital Asset and the rights regarding Digital Assets granted herein [specifically includes the content of electronic communications as defined in 18 U.S.C. § 2510(12) and] does not include an underlying asset or liability unless the asset or liability is itself an electronic record. For purposes of this definition, "electronic" means relating to technology having electrical, digital, magnetic, wireless, optical, electromagnetic, or similar capabilities, and "record" means information that is inscribed on a tangible medium or that is stored in an electronic or other medium and is retrievable in perceivable form. The term Digital Account means an arrangement under a terms-of-serve agreement in which a custodian either carries, maintains, processes, receives, or stores a Digital Asset, or provides goods or services for me; and]
+        </li>
+        <li>
+          Other Acts. To perform other acts necessary or appropriate for the proper administration of my estate, execute and deliver necessary instruments and give full receipts and discharges.
+        </li>
+      </ol>
+    </p>
+
+    <!-- Article 8: Miscellaneous Provisions -->
+    <div class="row article-header">
+      <h2>ARTICLE <%= articleNumber += 1 %></h2>
+      <h1>MISCELLANEOUS PROVISIONS</h1>
+    </div>
+
+    <ol type="A">
+      <li>
+        Spendthrift Provisions. Prior to the actual receipt of property by any beneficiary, no property (income or principal) distributable under this Will shall, voluntarily or involuntarily, be subject to anticipation or assignment by any beneficiary, or to attachment by or to the interference or control of any creditor or assignee of any beneficiary, or taken or reached by any legal or equitable process in satisfaction of any debt or liability of any beneficiary, and any attempted transfer or encumbrance of any interest in such property by any beneficiary hereunder prior to distribution shall be void.
+      </li>
+      <li>
+        Survivorship Provisions. No person shall be deemed to have survived me if such person shall die within [thirty (30)/[OTHER NUMBER]] days after my death. Any person who is prohibited by law from inheriting property from me shall be treated as having failed to survive me.
+      </li>
+      <li>
+        Payment of Taxes and Expenses.
+        <ol>
+          <li>
+            <p>
+              Payment of Taxes. All estate, inheritance, or similar taxes (including interest and penalties thereon) arising in connection with my death with respect to any property included in my gross estate for the purpose of calculating such taxes, whether or not such property passes under my Will, shall be paid out of the residue of my estate without apportionment.
+            </p>
+            <p>
+              To the extent the residue of my estate is insufficient for the payment of such taxes, then any excess taxes, except as otherwise specifically provided in this Subdivision 1, shall be paid on a pro rata basis from all of the assets passing by reason of my death.
+            </p>
+            <p>
+              Notwithstanding the foregoing, no portion of any estate, inheritance, or similar taxes (including interest and penalties thereon) arising in connection with my death shall be apportioned or charged to property qualifying fully for the charitable deduction for federal estate tax purposes; provided, however, to the extent that the assets passing by reason of my death that do not qualify for the charitable deduction are insufficient for the payment of such taxes, then any excess taxes shall be paid on a pro rata basis from the assets that qualify for the charitable deduction.
+            </p>
+            <p>
+              The provisions of this Subdivision 1 of Paragraph C shall not apply to any generation-skipping transfer taxes imposed by 26 U.S.C. § 2601 et seq., which taxes shall instead be payable in accordance with the provisions of 26 U.S.C. § 2603.
+            </p>
+          </li>
+          <li>
+            Payment of Expenses. All funeral expenses, and all expenses incurred in connection with the administration of my estate shall be paid out of the residue of my estate without apportionment. To the extent the residue of my estate is insufficient for the payment of such expenses, then any excess expenses shall be paid on a pro rata basis from all of the assets passing by reason of my death.
+          </li>
+        </ol>
+      </li>
+      <li>
+        Payment of Debts. I direct that all of my legal debts, funeral and testamentary expenses, costs, and expenses of administration of my estate shall be paid as soon after my death as in the opinion of my Executor is practical and advisable. Unless specifically provided for otherwise in this Will, if at the time of my death any of my property is subject to a mortgage, lien, or other debt, I direct that the devisee taking such property shall take it subject to such mortgage, lien, or other debt, and that such person shall not be entitled to have the obligation secured thereby paid out of my general estate. My Executor is specifically given the right to renew, refinance, and extend, in any form that it deems best, any secured or unsecured debt or charge existing at the time of my death. Under no circumstances shall my Executor be required to prepay any debt of mine.
+      </li>
+      <li>
+        Tax Elections. My Executor may elect to claim administration expenses as deductions in whole or in part either in the income tax returns of my estate or in the estate tax return.
+      </li>
+      <li>
+        Savings Clause. For the purposes of this Will, any gender shall be interpreted as encompassing all genders, and the singular shall encompass the plural and vice versa as the meaning shall dictate.
+      </li>
+      <li>
+        Severability. If any clause or term of this Will is held to be unenforceable or invalid as a matter of law, all other provisions of this Will shall remain in effect to the fullest extent permissible under the governing law of this Will.
+      </li>
+    </ol>
+
+    <!-- Article 9: Defined Terms -->
+    <div class="row article-header">
+      <h2>ARTICLE <%= articleNumber += 1 %></h2>
+      <h1>DEFINED TERMS</h1>
+    </div>
+    
+    <ol type="A">
+      <li>
+        Defined Terms. References in this Will to the following capitalized terms have the meanings specified below in this Article:
+        <ol>
+          <li>
+            Code. References to the Code, various Sections of the Code, or to 26 U.S.C. followed by Section numbers, are to such designated Sections of the Internal Revenue Code of 1986 as amended.
+          </li>
+          <li>
+            <p>
+              Descendants. Except as otherwise provided in this Will, references to Descendants shall mean the lineal blood descendants of any degree of the ancestor designated; provided, however, that such references shall include as then living Descendants, with respect to any provision of this Will, Descendants who have been conceived at any specific point in time relevant to such provision and who thereafter survive birth.
+            </p>
+            <p>
+              The term Descendants shall include a person conceived through assistive reproductive techniques or procedures, unless: (i) the person was born to an individual who was acting solely as a surrogate on behalf of another individual and did not intend to treat the person as their child, or (ii) the person was born to an individual who acted solely as the donor of genetic material on behalf of another individual and did not intend to treat the person as their child.
+            </p>
+            <p>
+              Except as hereinafter provided in this Paragraph, an adopted child and such adopted child's Descendants by blood or adoption shall be considered under this Will to be Descendants of the adopting parent or parents and of anyone who is by blood or adoption a lineal ancestor of the adopting parent or of either of the adopting parents.
+            </p>
+            <p>
+              Notwithstanding any provision in this Will to the contrary, the following persons shall not be included in the definition of Descendants for any purposes hereunder: (i) any person who is adopted (by anyone other than me) after reaching age eighteen (18) and (ii) any person who would otherwise be considered the Descendants (whether by blood or adoption) of such person.
+            </p>
+          </li>
+          <li>
+            Executor. Unless another meaning is clearly indicated or required by context or circumstances, the term Executor shall mean and include all persons or entities that may at any time be serving, including but not limited to the initial Executor or Executors (including all co-Executors), and any acting alternate or successor Executor.
+          </li>
+          <li>
+            Heirs. References to Heirs are to those persons who would inherit separate personal property from the person designated under the statutes of descent and distribution of the State of [STATE], if such person died intestate and unmarried at such time. A distribution to Heirs is a distribution in the shares and manner prescribed under such statutes.
+          </li>
+          <li>
+            Incapacitated. A beneficiary shall be deemed Incapacitated if my Executor or Trustee, in my Executor or Trustee's discretion, determines that such beneficiary lacks the ability, due to a physical or mental condition, to manage their own personal and financial affairs. My Executor or Trustee shall be deemed Incapacitated if and for as long as (i) a court of competent jurisdiction has made a finding to that effect, (ii) a guardian or conservator of such Executor's or such Trustee's person or estate has been appointed by a court of competent jurisdiction and is serving as such, or (iii) two physicians (licensed to practice medicine in the state where my Executor or Trustee is domiciled at the time of the certification, and one of whom shall be board certified in the specialty most closely associated with the cause of the incapacity) certify that due to a physical or mental condition the Executor or Trustee lacks the ability to manage their own personal and financial affairs. An Incapacitated Executor or Trustee shall be deemed to have regained capacity if there is a finding to that effect by a court of competent jurisdiction or if two physicians (with the same qualifications described above) certify that the Executor or Trustee is capable of managing their personal and financial affairs.
+          </li>
+          <li>
+            Per Stirpes. When a distribution is to be made to a person's Descendants Per Stirpes property shall be divided into as many equal shares as there are (i) members of the nearest generation of Descendants who survive such person, and (ii) deceased members of that generation who left Descendants who survive such person. This division into shares shall begin at the generation nearest to such person that has a surviving member. Each surviving member of the nearest generation of Descendants with a member who survives such person shall receive one share, and the share that would have passed to each deceased member of that generation who left Descendants who survive such person shall be divided in a similar manner (by reapplying the preceding rule) among their Descendants who survive such person. For example, if a person has deceased children and surviving children when a distribution is to be made, the assets will be divided into equal shares at the child level and distributed Per Stirpes below that level; however, if the person has no surviving children at such time, that equal division will be made at the grandchild level (or lower, if appropriate) and distributed Per Stirpes below that level. This definition is intended to override any conflicting or contrary statutory or common law definition.
+          </li>
+        </ol>
+      </li>
+      <li>
+        Other Defined Terms. Other terms may be defined throughout this Will for purposes of the provision in which they are included and those definitions apply to those terms in the context in which they are defined despite not being included in this Article.
+      </li>
+    </ol>
+
+    <!-- Article 10: No Contest Clause -->
+    <div class="row article-header">
+      <h2>ARTICLE <%= articleNumber += 1 %></h2>
+      <h1>NO CONTEST CLAUSE</h1>
+    </div>
+    
+    <p>
+      [If any beneficiary of my estate in any manner, directly or indirectly, contests the probate or validity of this Will or any of its provisions, or institutes or joins in, except as a party defendant, any proceeding to contest the probate or validity of this Will or to prevent any provision hereof from being carried out in accordance with the terms hereof, then all benefits provided for such beneficiary [and such contesting beneficiary's descendants] are revoked and shall pass as if that contesting beneficiary [and such contesting beneficiary's descendants] had failed to survive me. [The provisions of this Article shall be enforceable unless in a court action determining whether this no contest clause should be enforced, the party bringing the contest establishes that the contest was brought and maintained in good faith and that probable cause existed for bringing the contest.] Each benefit conferred herein is made on the condition precedent that the beneficiary receiving such benefit shall accept and agree to all of the provisions of this Will, and the provisions of this Article are an essential part of each and every benefit. My Executor shall be reimbursed for the reasonable costs and expenses, including attorneys' fees, incurred in connection with the defense of any such contest. Such reimbursement shall be made from my estate.]
+    </p>
+
+    <!-- Signature Page -->
+    <p><strong>IN WITNESS WHEREOF</strong>, I have signed this Will consisting of [NUMBER] pages, this page included, on the <%= day %> day of <%= month %>, <%= year %>.</p>
+
+    <p>___</p>
+    <p><%= testatorName %>, Testator</p>
+
+    <p>The foregoing instrument was signed by the Testator in our presence and declared by the Testator to be the Testator's Will, and we, the undersigned witnesses, sign our names hereunto as witnesses at the request and in the presence of the Testator[, and in the presence of each other,] on the <%= day %> day of <%= month %>, <%= year %>.</p>
+
+    <p>___</p>
+    <p>[FIRST WITNESS NAME]</p>
+    <p>[FIRST WITNESS ADDRESS]</p>
+
+    <p>___</p>
+    <p>[SECOND WITNESS NAME]</p>
+    <p>[SECOND WITNESS ADDRESS]</p>
+  </div>
+
+  <div class="container text-center mb-5">
+    <a href="#" class="btn btn-secondary">Scroll to Top</a>
+  </div>
+</body>
+</html>
