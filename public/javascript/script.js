@@ -1,5 +1,3 @@
-"use strict"
-
 // ##### GENERIC FUNCTIONS #####
 
 // Create an element with attributes and textContent
@@ -33,20 +31,36 @@ function autofill(attribute) {
   });
 }
 
+// Add <span> to display panel to reflect form inputs
+function addDisplayPlaceholderForInput(parent, inputFieldId) {
+  const placeholder = createHTMLElement({
+    element: 'span',
+    attributes: { class: `${inputFieldId}Display` }
+  })
+  parent.appendChild(placeholder);
+}
+
 // ##### DISTRIBUTION OF RESIDUARY ESTATE #####
-// Removes children fieldset and display, add beneficiary fieldset
+// Keep track of number of beneficiaries
+let beneficiaryCount;
+
+// Removes children fieldset and display, add beneficiary fieldset and display for id article
 // Used by the first two radio buttons
-function createBeneficiariesFieldset() {
+function createBeneficiariesFieldsetAndDisplay() {
+  // Remove beneficiaries fieldset if it exists
+  if (document.querySelector('.beneficiariesFieldset')) {
+    document.querySelector('.beneficiariesFieldset').remove();
+  }
+
   // Remove children fieldset if it exists
   if (document.querySelector('.childrenFieldset')) {
     document.querySelector('.childrenFieldset').remove();
   }
   
-  // Remove children clause from display if it exists
-  const childrenClauseDisplay = document.querySelector('.childrenClauseDisplay');
-  if (childrenClauseDisplay) childrenClauseDisplay.remove();
+  // Delete everything from Identification Article
+  document.querySelector('#identificationList').innerHTML = '';
   
-  // Add beneficiaries fieldset if it doesn't exist
+  // Add beneficiaries fieldset (without input field) if it doesn't exist
   function beneficiariesFieldsetHTML() {
     // <fieldset>
     const fieldset = createHTMLElement({
@@ -90,16 +104,15 @@ function createBeneficiariesFieldset() {
     .querySelector('#residuaryFieldset')
     .after(beneficiariesFieldsetHTML());
   
-    // Keep track of number of beneficiaries
-    let beneficiaryCount = 0;
-  
+    beneficiaryCount = 0;
+
     // Event listener for <button> Add Beneficiary
     function addBeneficiaryHandler() {
       // Increment beneficiaryCount
       beneficiaryCount += 1;
   
       // Create input fields for beneficiary
-      function inputFieldsforBeneficiary() {
+      function beneficiaryInputFieldsHTML() {
         // Create two input fields for each beneficiary, wrapped in a <div>
         const beneficiaryInputs = createHTMLElement({
           element: 'div',
@@ -164,7 +177,30 @@ function createBeneficiariesFieldset() {
       }
       document
         .querySelector('.beneficiariesFieldset')
-        .appendChild(inputFieldsforBeneficiary());
+        .appendChild(beneficiaryInputFieldsHTML());
+
+      // Create clause for preview panel
+      function beneficiaryIdDisplayHTML() {
+        const listElement = createHTMLElement({
+          element: 'li',
+          attributes: { id: `beneficiary${beneficiaryCount}Display` }
+        });
+        const subclauseHeader = createHTMLElement({
+          element: 'span',
+          attributes: { class: 'subclause-header' }
+        });
+        addDisplayPlaceholderForInput(subclauseHeader, `beneficiary${beneficiaryCount}Name`);
+        listElement.append(subclauseHeader, '. I have included my ');
+        addDisplayPlaceholderForInput(listElement, `beneficiary${beneficiaryCount}Relationship`);
+        listElement.append(', ');
+        addDisplayPlaceholderForInput(listElement, `beneficiary${beneficiaryCount}Name`);
+        listElement.append(', as a beneficiary in this Will.');
+        return listElement;
+      }
+      document.querySelector('#identificationList').appendChild(beneficiaryIdDisplayHTML());
+
+      autofill(`beneficiary${beneficiaryCount}Name`);
+      autofill(`beneficiary${beneficiaryCount}Relationship`);
     }
     document
       .querySelector('#addBeneficiaryBtn')
@@ -175,9 +211,13 @@ function createBeneficiariesFieldset() {
       // Decrement beneficiary count
       if (beneficiaryCount >= 1) {
         beneficiaryCount -= 1;
+
         // Update form
         const beneficiariesFieldset = document.querySelector('.beneficiariesFieldset');
         beneficiariesFieldset.removeChild(beneficiariesFieldset.lastChild);
+        
+        // Update display
+        document.querySelector('#identificationList').lastChild.remove();
       }
     }
     document
@@ -188,7 +228,15 @@ function createBeneficiariesFieldset() {
 
 // Event listener for first radio button
 function residueEqualHandler() {
-  createBeneficiariesFieldset();
+  // Remove percentage fieldset if it exists
+  if (document.querySelector('#percentageFieldset')) {
+    document.querySelector('#percentageFieldset').remove();
+  }
+
+  createBeneficiariesFieldsetAndDisplay();
+
+  // const idList = document.querySelector('#identificationList');
+  // idList.innerHTML += '<li class="beneficiaryDisplay">Hello World</li>'
 }
 document
   .querySelector('#residueEqual')
@@ -196,7 +244,76 @@ document
 
 // Event listener for second radio button
 function residuePercentHandler() {
-  createBeneficiariesFieldset();
+  createBeneficiariesFieldsetAndDisplay();
+  
+  // Additional event listener for add beneficiary button
+  // This handler adds input fields to determine the distribution percentages
+  function addBeneficiaryHandlerForPercentage() {
+    // Add percent fieldset if it doesn't exist
+    function percentageFieldsetHTML() {
+      const fieldset = createHTMLElement({
+        element: 'fieldset',
+        attributes: { id: 'percentageFieldset' }
+      });
+      fieldset.appendChild(createHTMLElement({
+        element: 'legend',
+        text: 'Distribution Percentage'
+      }));
+      return fieldset;
+    }
+    if (!document.querySelector('#percentageFieldset')) {
+      document.querySelector('.beneficiariesFieldset').after(percentageFieldsetHTML());
+    }
+
+    // Add input group to determine how much a beneficiary should receive in %
+    function percentageInputHTML() {
+      const inputGroup = createHTMLElement({
+        element: 'div',
+        attributes: { class: 'input-group mb-3' }
+      });
+  
+      // Prepend
+      inputGroup.appendChild(createHTMLElement({
+        element: 'span',
+        attributes: { class: 'input-group-text' },
+        text: `Beneficiary ${beneficiaryCount}`
+      }));
+  
+      // <input>
+      inputGroup.appendChild(createHTMLElement({
+        element: 'input',
+        attributes: { type: 'number', class: 'form-control', max: '100', required: '' }
+      }));
+  
+      // Append
+      inputGroup.appendChild(createHTMLElement({
+        element: 'span',
+        attributes: { class: 'input-group-text' },
+        text: '%'
+      }));
+  
+      return inputGroup;
+    }
+    document.querySelector('#percentageFieldset').appendChild(percentageInputHTML());
+  }
+  document
+    .querySelector('#addBeneficiaryBtn')
+    .addEventListener('click', addBeneficiaryHandlerForPercentage);
+
+  // Additional event listener for remove beneficiary button
+  // This handler removes the distribution percentage fieldset
+  function removeBeneficiaryHandlerForPercentage() {
+    const percentageFieldset = document.querySelector('#percentageFieldset');
+    if (beneficiaryCount >= 1) {
+      percentageFieldset.lastChild.remove();
+    }
+    if (beneficiaryCount === 0 && percentageFieldset) {
+      percentageFieldset.remove();
+    }
+  }
+  document
+    .querySelector('#removeBeneficiaryBtn')
+    .addEventListener('click', removeBeneficiaryHandlerForPercentage);
 }
 document
   .querySelector('#residuePercent')
@@ -207,6 +324,14 @@ function residuePerStirpesHandler() {
   // Remove beneficiaries fieldset if it exists
   if (document.querySelector('.beneficiariesFieldset')) {
     document.querySelector('.beneficiariesFieldset').remove();
+  }
+
+  // Delete everything from Identification Article
+  document.querySelector('#identificationList').innerHTML = '';
+  
+  // Remove percentage fieldset if it exists
+  if (document.querySelector('#percentageFieldset')) {
+    document.querySelector('#percentageFieldset').remove();
   }
 
   // Add children fieldset if it doesn't exist
@@ -309,7 +434,7 @@ function residuePerStirpesHandler() {
 
     // Create child clause in preview panel if this is the first child
     if (childCount === 1) {
-      function childClause() {
+      function childClauseHTML() {
         // <li>
         const li = createHTMLElement({
           element: 'li',
@@ -345,7 +470,7 @@ function residuePerStirpesHandler() {
     
         return li;
       }
-      document.querySelector('#identificationList').appendChild(childClause());
+      document.querySelector('#identificationList').appendChild(childClauseHTML());
     }
 
     updateChildCount();
@@ -391,13 +516,6 @@ function residuePerStirpesHandler() {
 
   // Helper function to update child names in the preview
   function updatePlaceholdersforChildName() {
-    function addDisplayPlaceholderForInput(parent, inputFieldId) {
-      const placeholder = createHTMLElement({
-        element: 'span',
-        attributes: { class: `${inputFieldId}Display` }
-      })
-      parent.appendChild(placeholder);
-    }
     const childNamesDisplay = document.querySelector('.childNamesDisplay');
 
     // Reset the names
