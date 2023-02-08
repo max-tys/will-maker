@@ -16,12 +16,12 @@ function createHTMLElement({ element, attributes = {}, text = '' } = {}) {
 }
 
 // Automatically fills the preview as you type
-function autofill(attribute) {
+function autofill(elementId) {
   // Attribute input fields are unique
-  const attributeField = document.querySelector(`#${attribute}Field`);
+  const attributeField = document.querySelector(`#${elementId}Field`);
 
   // Attributes may be displayed multiple times in the preview
-  const attributeDisplay = document.querySelectorAll(`.${attribute}Display`);
+  const attributeDisplay = document.querySelectorAll(`.${elementId}Display`);
 
   // Add event listener to input field
   attributeField.addEventListener('input', () => {
@@ -44,9 +44,11 @@ function addDisplayPlaceholderForInput(parent, inputFieldId) {
 // Keep track of number of beneficiaries
 let beneficiaryCount;
 
-// Removes children fieldset and display, add beneficiary fieldset and display for id article
+// Removes children fieldset and display, add beneficiary fieldset and display for Article 1
 // Used by the first two radio buttons
-function createBeneficiariesFieldsetAndDisplay() {
+function createBeneficiariesFieldsetAndDisplay() { 
+  beneficiaryCount = 0;
+
   // Remove beneficiaries fieldset if it exists
   if (document.querySelector('.beneficiariesFieldset')) {
     document.querySelector('.beneficiariesFieldset').remove();
@@ -57,8 +59,9 @@ function createBeneficiariesFieldsetAndDisplay() {
     document.querySelector('.childrenFieldset').remove();
   }
   
-  // Delete everything from Identification Article
-  document.querySelector('#identificationList').innerHTML = '';
+  // Remove everything from Articles 1 and 2
+  document.querySelector('#identificationClause').innerHTML = '';
+  document.querySelector('#residueClause').innerHTML = '';
   
   // Add beneficiaries fieldset (without input field) if it doesn't exist
   function beneficiariesFieldsetHTML() {
@@ -103,8 +106,6 @@ function createBeneficiariesFieldsetAndDisplay() {
     document
     .querySelector('#residuaryFieldset')
     .after(beneficiariesFieldsetHTML());
-  
-    beneficiaryCount = 0;
 
     // Event listener for <button> Add Beneficiary
     function addBeneficiaryHandler() {
@@ -179,7 +180,7 @@ function createBeneficiariesFieldsetAndDisplay() {
         .querySelector('.beneficiariesFieldset')
         .appendChild(beneficiaryInputFieldsHTML());
 
-      // Create clause for preview panel
+      // Create clause for Article 1
       function beneficiaryIdDisplayHTML() {
         const listElement = createHTMLElement({
           element: 'li',
@@ -197,7 +198,7 @@ function createBeneficiariesFieldsetAndDisplay() {
         listElement.append(', as a beneficiary in this Will.');
         return listElement;
       }
-      document.querySelector('#identificationList').appendChild(beneficiaryIdDisplayHTML());
+      document.querySelector('#identificationClause').appendChild(beneficiaryIdDisplayHTML());
 
       autofill(`beneficiary${beneficiaryCount}Name`);
       autofill(`beneficiary${beneficiaryCount}Relationship`);
@@ -210,14 +211,12 @@ function createBeneficiariesFieldsetAndDisplay() {
     function removeBeneficiaryHandler() {
       // Decrement beneficiary count
       if (beneficiaryCount >= 1) {
-        beneficiaryCount -= 1;
-
         // Update form
         const beneficiariesFieldset = document.querySelector('.beneficiariesFieldset');
         beneficiariesFieldset.removeChild(beneficiariesFieldset.lastChild);
         
         // Update display
-        document.querySelector('#identificationList').lastChild.remove();
+        document.querySelector('#identificationClause').lastChild.remove();
       }
     }
     document
@@ -235,8 +234,18 @@ function residueEqualHandler() {
 
   createBeneficiariesFieldsetAndDisplay();
 
-  // const idList = document.querySelector('#identificationList');
-  // idList.innerHTML += '<li class="beneficiaryDisplay">Hello World</li>'
+  // Add text to Article 2
+  const residueClause = document.querySelector('#residueClause');
+  const orderedListElement = createHTMLElement({
+    element: 'ol',
+    attributes: { type: 'A' }
+  });
+  orderedListElement.append(
+    createHTMLElement({element: 'li', text: 'All of the residue of my estate shall be distributed to the beneficiaries listed in Article 1 in equal shares.'}),
+    createHTMLElement({element: 'li', text: "If a beneficiary fails to survive me, this share of the residue of my estate shall be distributed to that beneficiary's Descendants who survive me Per Stirpes, or if no such Descendants survive me, such share shall be added on a pro rata basis to each of the remaining beneficiaries as shall be effectively disposed of."}),
+    createHTMLElement({element: 'li', text: 'If all of the dispositions in Paragraph A of this Article 2 fail, I give all of the residue of my estate to my Heirs.'})
+  );
+  residueClause.appendChild(orderedListElement);
 }
 document
   .querySelector('#residueEqual')
@@ -246,8 +255,32 @@ document
 function residuePercentHandler() {
   createBeneficiariesFieldsetAndDisplay();
   
+  // Add text to Article 2
+  function article2HTML() {
+    const orderedListElement = createHTMLElement({
+      element: 'ol',
+      attributes: { type: 'A' }
+    });
+    const article2A = createHTMLElement({
+      element: 'li', 
+      text: 'All of the residue of my estate shall be distributed to the following beneficiaries in the noted percentages:'
+    });
+    article2A.appendChild(createHTMLElement({
+      element: 'ol',
+      attributes: { id: 'beneficiaryListDisplay' }
+    }));
+    orderedListElement.append(
+      article2A,
+      createHTMLElement({element: 'li', text: "If a beneficiary fails to survive me, this share of the residue of my estate shall be distributed to that beneficiary's Descendants who survive me Per Stirpes, or if no such Descendants survive me, such share shall be added on a pro rata basis to each of the remaining beneficiaries as shall be effectively disposed of."}),
+      createHTMLElement({element: 'li', text: 'If all of the dispositions in Paragraph A of this Article 2 fail then I give all of the residue of my estate to my Heirs.'})
+    );
+    return orderedListElement;
+  }
+  document.querySelector('#residueClause').appendChild(article2HTML());
+
   // Additional event listener for add beneficiary button
   // This handler adds input fields to determine the distribution percentages
+  // Also adds subclauses to Article 2A
   function addBeneficiaryHandlerForPercentage() {
     // Add percent fieldset if it doesn't exist
     function percentageFieldsetHTML() {
@@ -282,7 +315,7 @@ function residuePercentHandler() {
       // <input>
       inputGroup.appendChild(createHTMLElement({
         element: 'input',
-        attributes: { type: 'number', class: 'form-control', max: '100', required: '' }
+        attributes: { type: 'number', class: 'form-control', id: `beneficiary${beneficiaryCount}PercentageField`, max: '100', required: '' }
       }));
   
       // Append
@@ -295,6 +328,21 @@ function residuePercentHandler() {
       return inputGroup;
     }
     document.querySelector('#percentageFieldset').appendChild(percentageInputHTML());
+
+    // Add beneficiary to Clause 2A in preview panel
+    function article2AHTML() {
+      const listElement = createHTMLElement({
+        element: 'li'
+      });
+      addDisplayPlaceholderForInput(listElement, `beneficiary${beneficiaryCount}Percentage`);
+      listElement.append('% shall be distributed to ');
+      addDisplayPlaceholderForInput(listElement, `beneficiary${beneficiaryCount}Name`);
+      listElement.append(".");
+      return listElement;
+    }
+    document.querySelector('#beneficiaryListDisplay').append(article2AHTML());
+    autofill(`beneficiary${beneficiaryCount}Percentage`);
+    autofill(`beneficiary${beneficiaryCount}Name`);
   }
   document
     .querySelector('#addBeneficiaryBtn')
@@ -305,7 +353,13 @@ function residuePercentHandler() {
   function removeBeneficiaryHandlerForPercentage() {
     const percentageFieldset = document.querySelector('#percentageFieldset');
     if (beneficiaryCount >= 1) {
+      beneficiaryCount -= 1;
+
+      // Remove percentage input field
       percentageFieldset.lastChild.remove();
+
+      // Remove beneficiary from Article 2A in preview panel
+      document.querySelector('#beneficiaryListDisplay').lastChild.remove();
     }
     if (beneficiaryCount === 0 && percentageFieldset) {
       percentageFieldset.remove();
@@ -326,9 +380,6 @@ function residuePerStirpesHandler() {
     document.querySelector('.beneficiariesFieldset').remove();
   }
 
-  // Delete everything from Identification Article
-  document.querySelector('#identificationList').innerHTML = '';
-  
   // Remove percentage fieldset if it exists
   if (document.querySelector('#percentageFieldset')) {
     document.querySelector('#percentageFieldset').remove();
@@ -470,7 +521,7 @@ function residuePerStirpesHandler() {
     
         return li;
       }
-      document.querySelector('#identificationList').appendChild(childClauseHTML());
+      document.querySelector('#identificationClause').appendChild(childClauseHTML());
     }
 
     updateChildCount();
@@ -503,6 +554,16 @@ function residuePerStirpesHandler() {
   document
     .querySelector('#removeChildBtn')
     .addEventListener('click', removeChildHandler);
+  
+  // Remove everything from display
+  document.querySelector('#identificationClause').innerHTML = '';
+  document.querySelector('#residueClause').innerHTML = '';
+
+  // Update Article 2
+  document.querySelector('#residueClause').append(createHTMLElement({
+    element: 'p',
+    text: "I give all of the residue of my estate to those of my Descendants who survive me Per Stirpes. If none of my Descendants survive me, I give all of the residue of my estate to my Heirs."
+  }));
 
   // Helper function to update child count in the preview
   function updateChildCount() {
