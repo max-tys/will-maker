@@ -670,6 +670,16 @@ document
   })
 })();
 
+// ##### PRINT BUTTON #####
+(function() {
+  const downloadBtn = document.querySelector('#downloadBtn');
+  downloadBtn.addEventListener('click', () => {
+    if (document.querySelector('#will-form').reportValidity()) {
+      window.print();
+    }
+  });
+})();
+
 // ##### RESET BUTTON #####
 // On click, reset both the form and the preview
 // Todo - fix reset button's interaction with childrenfieldset
