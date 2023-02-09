@@ -1,7 +1,5 @@
-// https://expressjs.com/
 const express = require('express');
 const router = express.Router();
-// const { jsPDF } = require("jspdf"); // will automatically load the node version
 
 router.get('/', (req, res) => {  
   // Use FS module to read JSON file
@@ -22,14 +20,5 @@ router.get('/', (req, res) => {
     jsonString: jsonString
   });
 })
-
-// router.post('/print', (req, res) => {
-//   const doc = new jsPDF();
-//   doc.text("Hello world!", 10, 10);
-//   doc.save("will.pdf"); // will save the file in the current working directory
-
-//   res.contentType('application/pdf');
-//   res.download('./will.pdf');
-// })
 
 module.exports = router;
