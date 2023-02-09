@@ -62,14 +62,37 @@
           </fieldset>
           
           <!-- Executor Provisions -->
+          <fieldset>
+            <legend>Executors' Particulars</legend>
+            <div class="form-floating">
+              <input required type="text" name="executor1NameField" id="executor1NameField"
+                placeholder="Primary Executor's Full Name" class="form-control mb-3">
+              <label for="executor1NameField">Primary Executor's Full Name</label>
+            </div>
+            <div class="form-floating">
+              <input required type="text" name="executor1RelationshipField" id="executor1RelationshipField"
+                placeholder="Primary Executor's Relationship to Testator" class="form-control mb-3">
+              <label for="executor1RelationshipField">Primary Executor's Relationship to Testator</label>
+            </div>
+            <div class="form-floating">
+              <input required type="text" name="executor2NameField" id="executor2NameField"
+                placeholder="Alternate Executor's Full Name" class="form-control mb-3">
+              <label for="executor2NameField">Alternate Executor's Full Name</label>
+            </div>
+            <div class="form-floating">
+              <input required type="text" name="executor2RelationshipField" id="executor2RelationshipField"
+                placeholder="Alternate Executor's Relationship to Testator" class="form-control mb-3">
+              <label for="executor2RelationshipField">Alternate Executor's Relationship to Testator</label>
+            </div>
+          </fieldset>
 
           <!-- No Contest Clause -->
           <fieldset>
             <legend>No Contest Clause</legend>
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" name="noContestClause"
-                id="noContestClause">
-              <label class="form-check-label" for="noContestClause">I wish to revoke the benefits for any beneficiary who contests my will.</label>
+              <input class="form-check-input" type="checkbox" role="switch" name="noContestBtn"
+                id="noContestBtn">
+              <label class="form-check-label" for="noContestBtn">I wish to revoke the benefits for any beneficiary who contests my will.</label>
             </div>
           </fieldset>
 
@@ -173,10 +196,10 @@
           </fieldset>
 
           <!-- Buttons -->
-          <fieldset class="text-center">
-            <button type="submit" class="btn btn-primary me-2">Download the Will</button>
+          <!-- <fieldset class="text-center">
+            <button type="submit" id="downloadBtn" class="btn btn-primary me-2">Download the Will</button>
             <button type="reset" id="resetButton" class="btn btn-light">Reset the Form</button>
-          </fieldset>
+          </fieldset> -->
         </form>
       </div>
 
@@ -215,7 +238,7 @@
         </div>
         <ol type="A">
           <li>
-            <span class="subclause-header">Executor</span>. I nominate my [RELATIONSHIP], [PRIMARY EXECUTOR NAME], to be Executor of my Will and estate. If [PRIMARY EXECUTOR NAME] fails to qualify, dies, resigns, becomes Incapacitated, or otherwise ceases to serve, I nominate my [RELATIONSHIP], [FIRST ALTERNATE EXECUTOR NAME], to be Executor of my Will and estate.
+            <span class="subclause-header">Executor</span>. I nominate my <span class="executor1RelationshipDisplay">[Relationship]</span>, <span class="executor1NameDisplay">[Primary Executor's Full Name]</span>, to be Executor of my Will and estate. If <span class="executor1NameDisplay">[Primary Executor's Full Name]</span> fails to qualify, dies, resigns, becomes Incapacitated, or otherwise ceases to serve, I nominate my <span class="executor2RelationshipDisplay">[Relationship]</span>, <span class="executor2NameDisplay">[Alternate Executor's Full Name]</span>, to be Executor of my Will and estate.
           </li>
           <li>
             <span class="subclause-header">Bond and Court Supervision</span>. No bond or other security shall be required of my Executor in any jurisdiction. If permitted by the laws of the state in which my Will is probated, my Executor shall administer my estate without court supervision, and no action shall be required in any court in relation to the settlement of my estate other than the probating and recording of my Will.
@@ -289,16 +312,8 @@
           </li>
         </ol>
 
-        <!-- Article: No Contest Clause -->
-        <div id="noContestClause">
-          <div class="row article-header">
-            <h4>ARTICLE 7</h4>
-            <h2>NO CONTEST</h2>
-          </div>
-          <p>
-            If any beneficiary of my estate in any manner, directly or indirectly, contests the probate or validity of this Will or any of its provisions, or institutes or joins in, except as a party defendant, any proceeding to contest the probate or validity of this Will or to prevent any provision hereof from being carried out in accordance with the terms hereof, then all benefits provided for such beneficiary are revoked and shall pass as if that contesting beneficiary had failed to survive me. 
-          </p>
-        </div>
+        <!-- Article 7: No Contest Clause -->
+        <div id="noContestClause"></div>
 
         <!-- Signature Page -->
         <p class="mt-5">
