@@ -1,6 +1,7 @@
 // https://expressjs.com/
 const express = require('express');
 const router = express.Router();
+const { jsPDF } = require("jspdf"); // will automatically load the node version
 
 router.get('/', (req, res) => {  
   // Use FS module to read JSON file
@@ -22,44 +23,13 @@ router.get('/', (req, res) => {
   });
 })
 
-router.post('/preview', (req, res) => {
-  // Delete after debugging
-  console.log(`Giving to Charity: ${req.body.givingToCharity}`);
-  console.log(`Remains Clause: ${req.body.remainsClause}`);
+router.post('/print', (req, res) => {
+  const doc = new jsPDF();
+  doc.text("Hello world!", 10, 10);
+  doc.save("will.pdf"); // will save the file in the current working directory
 
-  res.render('preview', {
-    articleNumber: 0,
-    testatorName: req.body.testatorName,
-    testatorCounty: req.body.testatorCounty,
-    testatorState: req.body.testatorState,
-    givingToCharity: Boolean(req.body.givingToCharity),
-    remainsClause: Boolean(req.body.remainsClause),
-    day: req.body.day,
-    month: req.body.month,
-    year: req.body.year
-  });
+  res.contentType('application/pdf');
+  res.download('./will.pdf');
 })
-
-// router.get('/print', (req, res) => {
-//   const PDFDocument = require('pdfkit');
-
-//   const doc = new PDFDocument({ 
-//     size: 'A4',
-//     font: 'public/fonts/Merriweather.ttf'
-//   });
-
-//   res.writeHead(200, {
-//     'Content-Type': 'application/pdf',
-//     'Content-Disposition': 'inline'
-//   });
-
-//   doc.pipe(res);
-
-//   doc
-//     .fontSize(16)
-//     .text('Hello world');
-  
-//   doc.end();
-// })
 
 module.exports = router;
