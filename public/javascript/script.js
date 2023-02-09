@@ -615,30 +615,48 @@ document
   .querySelector('#residuePerStirpes')
   .addEventListener('change', residuePerStirpesHandler);
 
-// ##### PREVIEW-AS-YOU-TYPE #####
-// todo - consider using the keys from sampleData.json?
-(function () {
-  const fieldNames = [
-    'testatorName',
-    'testatorCounty',
-    'testatorState',
-    'firstWitnessName',
-    'firstWitnessAddress',
-    'secondWitnessName',
-    'secondWitnessAddress',
-    'day',
-    'month',
-    'year'
-  ]
-  fieldNames.forEach(fieldName => autofill(fieldName));
+// Event listener for no contest clause radio button
+(function() {
+  const noContestBtn = document.querySelector('#noContestBtn');
+  function contestHeaderHTML() {
+    const articleHeader = createHTMLElement({
+      element: 'div',
+      attributes: { class: 'row article-header' }
+    });
+    articleHeader.appendChild(createHTMLElement({
+      element: 'h4',
+      text: 'ARTICLE 7'
+    }));
+    articleHeader.appendChild(createHTMLElement({
+      element: 'h2',
+      text: 'NO CONTEST'
+    }));
+    return articleHeader;
+  }
+  noContestBtn.addEventListener('change', e => {
+    const noContestDiv = document.querySelector('#noContestClause');
+    if (e.target.checked) {
+      noContestDiv.append(contestHeaderHTML());
+      noContestDiv.append(createHTMLElement({
+        element: 'p',
+        text: "If any beneficiary of my estate in any manner, directly or indirectly, contests the probate or validity of this Will or any of its provisions, or institutes or joins in, except as a party defendant, any proceeding to contest the probate or validity of this Will or to prevent any provision hereof from being carried out in accordance with the terms hereof, then all benefits provided for such beneficiary are revoked and shall pass as if that contesting beneficiary had failed to survive me."
+      }));
+    } else {
+      noContestDiv.innerHTML = '';
+    }
+  });
 })();
 
-// ##### ADD SAMPLE DATA BUTTON #####
+// ##### PREVIEW-AS-YOU-TYPE #####
+(function () {
+  Object.keys(sampleData).forEach(fieldName => autofill(fieldName));
+})();
+
+// ##### ADD SAMPLE DATA LINK #####
 // On click, add sample data and update preview
 // sampleData is exported from server to client via an embedded script in index
 (function () {
-  const sampleButton = document.querySelector('#sampleButton');
-  sampleButton.addEventListener('click', (event) => {
+  document.querySelector('#sampleButton').addEventListener('click', (event) => {
     for (const key in sampleData) {
       const attributeField = document.querySelector(`#${key}Field`);
       attributeField.value = sampleData[key];
@@ -648,8 +666,6 @@ document
         attr.textContent = attributeField.value;
       })
     }
-    // Todo - add functionality for charity clause?
-    // document.querySelector('#givingToCharityField').checked = true;
     event.preventDefault();
   })
 })();
