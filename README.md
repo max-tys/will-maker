@@ -10,9 +10,11 @@ This web application streamlines the process of creating a will. By completing a
 ## Usage
 
 1. To run the server locally, use:
+
 ```
-node app.js
+node server.js
 ```
+
 2. Visit http://localhost:8080/ to use the will maker.
 
 ## Disclaimer
